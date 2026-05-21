@@ -334,7 +334,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--protocol-version", type=int, default=1, help="Protocol version")
     parser.add_argument("--retry", type=float, default=1.0, help="Reconnect retry interval (seconds)")
     parser.add_argument("--recv-timeout", type=float, default=0.2, help="Socket recv timeout (seconds)")
-    parser.add_argument("--log-file", default="./runtime/ft300_uds_test_client.log.jsonl", help="JSONL log file")
+    parser.add_argument("--log-file", default="./runtime_logs/ft300_uds_test_client.log.jsonl", help="JSONL log file")
     parser.add_argument("--script", default=None, help="Comma-separated script. Example: s,wait:2,p,wait:1,s,d,q")
     parser.add_argument("--script-file", default=None, help="Script file path. One token per line")
     parser.add_argument("--with-shm-reader", action="store_true", help="Enable ACK-driven SHM reader integration")
