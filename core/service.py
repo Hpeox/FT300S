@@ -191,12 +191,13 @@ class AcquisitionService:
             return
 
         if msg_type == MsgType.DEMO_DONE_REQ:
-            if self.state == ServiceState.COLLECTING:
+            if self.state in {ServiceState.COLLECTING, ServiceState.PAUSED}:
                 self.local_store.mark_event("demo_done_ns", time.time_ns())
-                try:
-                    self.sensor.stop_collection()
-                except Exception as exc:
-                    self._send_error(ErrorCode.SENSOR_READ_FAIL, f"demo done stop failed: {exc}")
+                if self.state == ServiceState.COLLECTING:
+                    try:
+                        self.sensor.stop_collection()
+                    except Exception as exc:
+                        self._send_error(ErrorCode.SENSOR_READ_FAIL, f"demo done stop failed: {exc}")
                 try:
                     saved_file = self._flush_current_demo()
                     self._set_state(ServiceState.WAIT_START)
@@ -214,12 +215,13 @@ class AcquisitionService:
             return
 
         if msg_type == MsgType.DEMO_DISCARD_REQ:
-            if self.state == ServiceState.COLLECTING:
+            if self.state in {ServiceState.COLLECTING, ServiceState.PAUSED}:
                 self.local_store.mark_event("demo_discard_ns", time.time_ns())
-                try:
-                    self.sensor.stop_collection()
-                except Exception as exc:
-                    self._send_error(ErrorCode.SENSOR_READ_FAIL, f"demo discard stop failed: {exc}")
+                if self.state == ServiceState.COLLECTING:
+                    try:
+                        self.sensor.stop_collection()
+                    except Exception as exc:
+                        self._send_error(ErrorCode.SENSOR_READ_FAIL, f"demo discard stop failed: {exc}")
                 self._discard_current_demo()
                 self._set_state(ServiceState.WAIT_START)
                 self._next_collect_deadline = None

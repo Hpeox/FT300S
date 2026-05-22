@@ -19,7 +19,7 @@ _ALLOWED_TRANSITIONS = {
     ServiceState.INIT: {ServiceState.WAIT_START, ServiceState.STOPPED},
     ServiceState.WAIT_START: {ServiceState.COLLECTING, ServiceState.STOPPED},
     ServiceState.COLLECTING: {ServiceState.WAIT_START, ServiceState.PAUSED, ServiceState.STOPPED},
-    ServiceState.PAUSED: {ServiceState.COLLECTING, ServiceState.STOPPED},
+    ServiceState.PAUSED: {ServiceState.COLLECTING, ServiceState.WAIT_START, ServiceState.STOPPED},
     ServiceState.STOPPED: set(),
 }
 
