@@ -121,5 +121,5 @@ summary 关键字段：
 ## 说明
 
 - stream 模式需要安装 libscrc：pip install libscrc。
-- 服务输出文件默认写入 FT300S/runtime_frames。
+- 服务输出文件默认写入仓库根目录下的 runtime_frames。
 - 第一帧为 warmup 帧（frame_id=-1），仅用于共享内存 schema 探测。
