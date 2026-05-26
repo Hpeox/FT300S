@@ -241,12 +241,16 @@ class AcquisitionService:
                 self.sensor.stop_collection()
             except Exception as exc:
                 self._send_error(ErrorCode.SENSOR_READ_FAIL, f"stop collection failed: {exc}")
+            saved_file = None
             try:
-                self._flush_current_demo()
+                saved_file = self._flush_current_demo()
                 self._reset_shm_if_available()
             except Exception as exc:
                 self._send_error(ErrorCode.UNKNOWN, f"flush on stop failed: {exc}")
-            self.uds.send_message(MsgType.ACK, payload={"cmd": "STOP_REQ"})
+            payload = {"cmd": "STOP_REQ"}
+            if saved_file is not None:
+                payload["saved_file"] = saved_file
+            self.uds.send_message(MsgType.ACK, payload=payload)
             self._set_state(ServiceState.STOPPED)
             self._next_collect_deadline = None
             self._running = False
