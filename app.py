@@ -2,6 +2,7 @@
 
 import argparse
 import logging
+from pathlib import Path
 
 from .config.settings import Settings
 from .core.service import AcquisitionService
@@ -13,6 +14,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--uds-path", default=None, help="UDS socket path")
     parser.add_argument("--shm-name", default=None, help="Shared memory name")
     parser.add_argument("--fps", type=float, default=None, help="Target FPS")
+    parser.add_argument("--save-dir", type=Path, default=None, help="Directory for saved runtime frames")
     parser.add_argument("--port", default=None, help="FT300 serial port path")
     parser.add_argument("--slave-address", type=int, default=None, help="Modbus slave address")
 
@@ -46,6 +48,8 @@ def main() -> None:
         settings.shm_name = args.shm_name
     if args.fps is not None:
         settings.target_fps = args.fps
+    if args.save_dir is not None:
+        settings.save_dir = args.save_dir.expanduser().resolve()
     if args.port:
         settings.port_name = args.port
     if args.slave_address is not None:

@@ -39,6 +39,7 @@ python -m FT300S.app --uds-path /tmp/ft300_sensor.sock --shm-name ft300_sensor_f
 
 可选参数：
 
+- --save-dir：采集文件保存目录（默认仓库根目录下的 runtime_frames）
 - --port：串口路径（默认使用 /dev/serial/by-id/...）
 - --slave-address：Modbus 从站地址（默认 9）
 - --stream-mode：强制使用 stream 模式（默认行为）
@@ -121,5 +122,5 @@ summary 关键字段：
 ## 说明
 
 - stream 模式需要安装 libscrc：pip install libscrc。
-- 服务输出文件默认写入仓库根目录下的 runtime_frames。
+- 服务输出文件默认写入仓库根目录下的 runtime_frames，可通过 `--save-dir` 覆盖。
 - 第一帧为 warmup 帧（frame_id=-1），仅用于共享内存 schema 探测。
